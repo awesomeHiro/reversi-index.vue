@@ -4,8 +4,8 @@
       <div
         v-for="y in board[x - 1].length"
         :key="`${y}-${x}`"
-        @click="putStone(x, y)"
         class="cell"
+        @click="putStone(x, y)"
       >
         <div
           v-if="isStone(x, y)"
@@ -33,18 +33,18 @@ export default class extends Vue {
     [0, 0, 0, 0, 0, 0, 0, 0]
   ]
 
-  marginBoard = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 2, 0, 0, 0, 0],
-    [0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  ]
+  // marginBoard = [
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 1, 2, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  // ]
 
   connectedBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -75,7 +75,9 @@ export default class extends Vue {
 
   get isLonelyCell() {
     return (x: number, y: number) => {
-      return !this.connectedBoard[x + 1][y + 1]
+      console.log(x, y)
+
+      return !this.connectedBoard[x][y]
     }
   }
 
@@ -91,31 +93,31 @@ export default class extends Vue {
     }
   }
 
-  get updateMarginBoard() {
-    return () => {
-      this.board.forEach((row, y) => {
-        row.forEach((cell, x) => {
-          if (cell) {
-            this.marginBoard[x + 1][y + 1] = cell
-          }
-        })
-      })
-    }
-  }
+  // get updateMarginBoard() {
+  //   return () => {
+  //     this.board.forEach((row, x) => {
+  //       row.forEach((cell, y) => {
+  //         if (cell) {
+  //           this.marginBoard[x + 1][y + 1] = cell
+  //         }
+  //       })
+  //     })
+  //   }
+  // }
 
   get updateConnectedBoard() {
     return () => {
-      this.board.forEach((row, y) => {
-        row.forEach((cell, x) => {
+      this.board.forEach((row, x) => {
+        row.forEach((cell, y) => {
           if (cell) {
-            this.connectedBoard[x + 1][y + 1] = 1
-            this.connectedBoard[x + 1][y + 0] = 1
-            this.connectedBoard[x + 1][y - 1] = 1
+            this.connectedBoard[x + 0][y + 0] = 1
             this.connectedBoard[x + 0][y + 1] = 1
-            this.connectedBoard[x + 0][y - 1] = 1
-            this.connectedBoard[x - 1][y + 1] = 1
-            this.connectedBoard[x - 1][y + 0] = 1
-            this.connectedBoard[x - 1][y - 1] = 1
+            this.connectedBoard[x + 0][y + 2] = 1
+            this.connectedBoard[x + 1][y + 0] = 1
+            this.connectedBoard[x + 1][y + 2] = 1
+            this.connectedBoard[x + 2][y + 0] = 1
+            this.connectedBoard[x + 2][y + 1] = 1
+            this.connectedBoard[x + 2][y + 2] = 1
           }
         })
       })
@@ -129,7 +131,7 @@ export default class extends Vue {
       this.setStone(x, y)
       this.passTrun()
       this.reRenderBoard()
-      this.updateMarginBoard()
+      // this.updateMarginBoard()
       this.updateConnectedBoard()
     }
   }
