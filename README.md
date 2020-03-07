@@ -2,6 +2,10 @@
 
 imported from https://github.com/m-mitsuhide/nuxt-ts-starter
 
+
+## for VSCode
+disable: format on save 
+
 ## Build Setup
 
 ```bash
